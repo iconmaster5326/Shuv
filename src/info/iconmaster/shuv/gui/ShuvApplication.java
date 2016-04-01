@@ -1,11 +1,14 @@
 package info.iconmaster.shuv.gui;
 
+import info.iconmaster.shuv.Shuv;
+import info.iconmaster.shuv.ShuvConsts;
 import info.iconmaster.shuv.ShuvDecoder;
 import info.iconmaster.shuv.ShuvDecoder.ShuvData;
 import info.iconmaster.shuv.ShuvEncoder;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -33,6 +36,32 @@ public class ShuvApplication extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		
+		if (ShuvConsts.API_KEY == null) {
+			TextInputDialog tid = new TextInputDialog();
+			tid.setContentText("No key detected!\nPlease input a key:");
+			Optional<String> r = tid.showAndWait();
+			if (r.isPresent()) {
+				ShuvConsts.setKey(r.get());
+				
+				try {
+				Files.createDirectory((new File("data")).toPath());
+				} catch (IOException ex) {
+					Logger.getLogger(Shuv.class.getName()).log(Level.SEVERE, null, ex);
+				}
+
+				try {
+					Files.write((new File("data/api_key")).toPath(), r.get().getBytes());
+				} catch (IOException ex) {
+					Logger.getLogger(Shuv.class.getName()).log(Level.SEVERE, null, ex);
+				}
+			} else {
+				Alert alert = new Alert(Alert.AlertType.ERROR, "Fatal error: No key.");
+				alert.showAndWait();
+				return;
+			}
+		}
+		
 		Label encodeLabel = new Label("File:");
 		encodeLabel.setPadding(new Insets(5));
 		
