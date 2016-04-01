@@ -1,6 +1,7 @@
 package info.iconmaster.shuv;
 
 import info.iconmaster.shuv.ShuvDecoder.ShuvData;
+import info.iconmaster.shuv.gui.ShuvApplication;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,12 +19,17 @@ public class Shuv {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
+		if (args.length >= 1 && "gui".equals(args[0])) {
+			ShuvApplication.main(args);
+			return;
+		}
+		
 		if (args.length <= 1 || args.length > 3) {
 			usageMessage();
 			return;
 		}
 		
-		if ("encode".equals(args[0])) {
+		if ("upload".equals(args[0])) {
 			checkForKey();
 			
 			String code = ShuvEncoder.encode(new File(args[1]));
@@ -32,7 +38,7 @@ public class Shuv {
 				return;
 			}
 			System.out.print(code);
-		} else if ("decode".equals(args[0])) {
+		} else if ("download".equals(args[0])) {
 			checkForKey();
 			
 			ShuvData data = ShuvDecoder.decodeToFilesName(new File("."), args[1]);
@@ -47,8 +53,9 @@ public class Shuv {
 	}
 	
 	public static void usageMessage() {
-		System.out.println("Usage: shuv encode <file>");
-		System.out.println("       shuv decode <code>");
+		System.out.println("Usage: shuv upload <file>");
+		System.out.println("       shuv download <code>");
+		System.out.println("       shuv gui");
 	}
 	
 	public static void checkForKey() {

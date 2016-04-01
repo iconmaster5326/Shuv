@@ -23,8 +23,8 @@ import org.json.JSONObject;
  */
 public class ShuvDecoder {
 	public static class ShuvData {
-		String name;
-		byte[] data;
+		public String name;
+		public byte[] data;
 
 		public ShuvData() {}
 
