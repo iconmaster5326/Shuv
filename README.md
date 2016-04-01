@@ -12,7 +12,7 @@ Features include:
 
 # Download
 
-Coming soon!
+Download the compiled files at https://drive.google.com/file/d/0B9QP0yOa5DOrTnpZR1JzZDJsblk/view?usp=sharing ! Just extract the files, and you're good to go!
 
 # Running
 
